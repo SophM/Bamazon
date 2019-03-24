@@ -41,7 +41,7 @@ var connection = mysql.createConnection({
 // ------------------------------------------------------------------
 
 // function to format nicely the "products" table and add some colors
-function formatTable(arr) {
+function showInventory(arr) {
     // instantiate the table
     var productsTable = new table();
     // add the first row = headers - with some styling thanks to cli-color
@@ -56,9 +56,41 @@ function formatTable(arr) {
     console.log(productsTable.toString());
 }
 
+// function to ask the customer if she/he wants to buy an item
+function askCustomer() {
+    // ask the customer to enter the ID of the item she/he wants
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Which item would you like to purchase ? Enter its ID [Quit with Q]",
+                name: "customerChoice"
+            }
+        ]).then (function(answer) {
+            // if the customer entered "Q"
+            if(answer.customerChoice.toLowerCase() === "q") {
+                // display a "goodbye" message
+                console.log(clc.blue.bold("-----------------------------------"));
+                console.log(clc.blue.bold("Goodbye, see you next time!"));
+                console.log(clc.blue.bold("-----------------------------------"));
+                // end the connection with bamazon_db
+                connection.end();
+            // if the customer enter an ID
+            } else {
+                // to test for now!
+                console.log(clc.magenta.bold("-----------------------------------"));
+                console.log(clc.magenta.bold("Great!"));
+                console.log(clc.magenta.bold("-----------------------------------")); 
+                // ask again the customer again
+                askCustomer();               
+            }
+
+        })
+}
 
 // function to diplay the "products" table to the cutomer = our inventory
-function showInventory() {
+// and ask if she/he want to buy something
+function showInventoryAskCustomer() {
     // connect to the database to do a request
     connection.query(
         // select the entire "products" table
@@ -67,7 +99,9 @@ function showInventory() {
             // if error(s), display it(them)
             if (err) throw err;
             // show the "products" table in a nice table
-            formatTable(res);  
+            showInventory(res);
+            // ask the customer if she/he wants to buy something
+            askCustomer();  
         }
     )
 }
@@ -78,9 +112,12 @@ function showInventory() {
 // ------------------------------------------------------------------
 
 // welcome the user
-console.log("-----------------------------------");
-console.log("Welcome on Bamazon - Outdoors Edition! Here is our inventory!");
-console.log("-----------------------------------");
+// create a color to display the welcome message with cli-color
+var welcomeMsg = clc.xterm(208);
+// welcome message
+console.log(welcomeMsg.bold("-----------------------------------"));
+console.log(welcomeMsg.bold("Welcome on Bamazon - Outdoors Edition! Here is our inventory!"));
+console.log(welcomeMsg.bold("-----------------------------------"));
 
 // open the connection to bamazon_db
 connection.connect(function(err) {
@@ -88,6 +125,6 @@ connection.connect(function(err) {
     if (err) throw err;
     // verify that we are connected
     // console.log("connected as id " + connection.threadId);
-    // run the code below once the connection has been established
-    showInventory();
+    // run the showInventoryAskCustomer() funcion once the connection has been established
+    showInventoryAskCustomer(); 
 });
