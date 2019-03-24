@@ -17,7 +17,7 @@ var table = require("cli-table");
 
 
 // ------------------------------------------------------------------
-// Connection to the mySQL database
+// Connection to the mySQL database - bamazon_db
 // ------------------------------------------------------------------
 
 // create the connection to bamazon_db and store it in a variable
@@ -33,7 +33,19 @@ var connection = mysql.createConnection({
     // Your password
     password: "a9uLc2frfg7buEidFA",
     database: "bamazon_db"
-  });
+});
+
+
+// ------------------------------------------------------------------
+// Functions
+// ------------------------------------------------------------------
+
+// create a color to display the "goodbye" message with cli-color
+var goodbyeMsg = clc.xterm(208);
+
+// create a color to display the "transaction" messages - too low quantity or successful transaction
+var sucessMsg = clc.xterm(71);
+var tooLowMsg = clc.xterm(160);
 
 
 // ------------------------------------------------------------------
@@ -56,38 +68,6 @@ function showInventory(arr) {
     console.log(productsTable.toString());
 }
 
-// function to ask the customer if she/he wants to buy an item
-function askCustomer() {
-    // ask the customer to enter the ID of the item she/he wants
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Which item would you like to purchase ? Enter its ID [Quit with Q]",
-                name: "customerChoice"
-            }
-        ]).then (function(answer) {
-            // if the customer entered "Q"
-            if(answer.customerChoice.toLowerCase() === "q") {
-                // display a "goodbye" message
-                console.log(clc.blue.bold("-----------------------------------"));
-                console.log(clc.blue.bold("Goodbye, see you next time!"));
-                console.log(clc.blue.bold("-----------------------------------"));
-                // end the connection with bamazon_db
-                connection.end();
-            // if the customer enter an ID
-            } else {
-                // to test for now!
-                console.log(clc.magenta.bold("-----------------------------------"));
-                console.log(clc.magenta.bold("Great!"));
-                console.log(clc.magenta.bold("-----------------------------------")); 
-                // ask again the customer again
-                askCustomer();               
-            }
-
-        })
-}
-
 // function to diplay the "products" table to the cutomer = our inventory
 // and ask if she/he want to buy something
 function showInventoryAskCustomer() {
@@ -106,18 +86,113 @@ function showInventoryAskCustomer() {
     )
 }
 
+// function to ask the customer if she/he wants to buy an item
+function askCustomer() {
+    // ask the customer to enter the ID of the item she/he wants
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Which item would you like to purchase ? Enter its ID [Quit with Q]",
+                name: "customerChoice"
+            }
+        ]).then (function(item) {
+            // if the customer entered "Q"
+            if(item.customerChoice.toLowerCase() === "q") {
+                // display a "goodbye" message
+                console.log(goodbyeMsg.bold("-----------------------------------"));
+                console.log(goodbyeMsg.bold("Goodbye, see you next time!"));
+                console.log(goodbyeMsg.bold("-----------------------------------"));
+                // end the connection with bamazon_db
+                connection.end();
+            // if the customer enter an ID
+            } else {
+                // ask for how many she/he wants
+                inquirer
+                    .prompt([
+                        {
+                            type: "input",
+                            message: "How many would you like to buy? [Quit with Q]",
+                            name: "customerQuantity"
+                        }
+                    ]).then(function(quantity) {
+                        // if the customer entered "Q"
+                        if(quantity.customerQuantity.toLowerCase() === "q") {
+                            // display a "goodbye" message
+                            console.log(goodbyeMsg.bold("-----------------------------------"));
+                            console.log(goodbyeMsg.bold("Goodbye, see you next time!"));
+                            console.log(goodbyeMsg.bold("-----------------------------------"));
+                            // end the connection with bamazon_db
+                            connection.end();
+                        // if the customer entered a quantity
+                        } else {
+                            // run updateInventory() function
+                            updateInventory(item.customerChoice, quantity.customerQuantity);
+                        }
+                    })              
+            }
+        })
+}
+
+// function to update the "products" table within bamazon_db
+function updateInventory(item_wanted, quantity_wanted) {
+    // connect to the database to do a request
+    connection.query (
+        // grab the quantity in stock and the name of the product for the item wanted
+        "SELECT stock_quantity, product_name FROM products WHERE ?",
+        {
+            item_id: parseInt(item_wanted),
+        },
+        function (err, res) {
+            // if error(s), display it(them)
+            if (err) throw err;
+            // if the quantity wanted is superior to the quantity in stock
+            if (quantity_wanted > res[0].stock_quantity) {
+                // display message - stocks too low
+                console.log(tooLowMsg.bold("-----------------------------------"));
+                console.log(tooLowMsg.bold("Sorry, we don't have that many in stock!"));
+                console.log(tooLowMsg.bold("-----------------------------------"));
+                // show the updated inventory and ask the customer again
+                showInventoryAskCustomer();
+            // if the quantity in stock is enough
+            } else {
+                // display message  - successful transaction
+                console.log(sucessMsg.bold("-----------------------------------"));
+                console.log(sucessMsg.bold("Successful transaction! You just purchased " + quantity_wanted + " " + res[0].product_name + "(s)."));
+                console.log(sucessMsg.bold("-----------------------------------"));
+                // connect to the database to do a request
+                connection.query(
+                    // update the quantity in stock for the item wanted
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: res[0].stock_quantity - parseInt(quantity_wanted)
+                        },
+                        {
+                            item_id: item_wanted
+                        }
+                    ],
+                    function(err, res) {
+                        // if error(s), display it(them)
+                        if (err) throw err;
+                    }
+                )
+                // show the updated inventory and ask the customer again
+                showInventoryAskCustomer();
+            }
+        }   
+    )
+}
+
 
 // ------------------------------------------------------------------
 // Main process
 // ------------------------------------------------------------------
 
-// welcome the user
-// create a color to display the welcome message with cli-color
-var welcomeMsg = clc.xterm(208);
-// welcome message
-console.log(welcomeMsg.bold("-----------------------------------"));
-console.log(welcomeMsg.bold("Welcome on Bamazon - Outdoors Edition! Here is our inventory!"));
-console.log(welcomeMsg.bold("-----------------------------------"));
+// welcome the user - message displayed in color with cli-color
+console.log(clc.magenta.bold("-----------------------------------"));
+console.log(clc.magenta.bold("Welcome on Bamazon - Outdoors Edition! Here is our inventory!"));
+console.log(clc.magenta.bold("-----------------------------------"));
 
 // open the connection to bamazon_db
 connection.connect(function(err) {
