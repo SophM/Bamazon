@@ -37,7 +37,7 @@ var connection = mysql.createConnection({
 
 
 // ------------------------------------------------------------------
-// Functions
+// Variables - color for styling
 // ------------------------------------------------------------------
 
 // create a color to display the "goodbye" message with cli-color
