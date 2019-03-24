@@ -28,11 +28,11 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES 
 ("Backpack", "Hiking/Backpacking", 119.99, 15),
 ("Hiking shoes", "Hiking/Backpacking", 75, 6),
-("Life jackets", "Sailing/Canoeing", 39.99, 23),
+("Life jacket", "Sailing/Canoeing", 39.99, 23),
 ("Water filter", "Hiking/Backpacking", 19.97, 14),
 ("Carabiner", "Climbing", 10.99, 57),
 ("Canoe", "Sailing/Canoeing", 1344.99, 3),
 ("Harness", "Climbing", 47.75, 45),
-("Freeze dried Meals", "Hiking/Backpacking", 4.99, 129),
+("Freeze dried Meal", "Hiking/Backpacking", 4.99, 129),
 ("Winter hat", "Snow", 20, 43),
 ("Goggles", "Snow", 60, 16);
