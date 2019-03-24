@@ -1,10 +1,10 @@
 # Bamazon
 
-In this project, I built ...
+In this project, I built an e-commerce storefront, called Bamazon. Bamazon is a CLI. It runs in the terminal, using Node.js. Node.js is an open-source JavaScript runtime environment, that allows to execute JavaScript code outside of a browser. Bamazon's inventory corresponds to a database stored using mySQL. The app connects to the mySQL database, which allows to display and update the store's inventory. 
 
-Bamazon is meant to be run in the terminal, using Node.js. Node.js is an open-source JavaScript runtime environment, that allows to execute JavaScript code outside of a browser. 
+The app shows the store's inventory and takes orders from customers. If the quantity wanted by the customer is lower than the stock, the customer will "buy" the item(s) wanted and an updated store's inventory will be displayed. If the customer wants more items than available in stock, a "stock-too-low" message will be displayed along with the store's inventory. At anytime, the customer can quit the app by entering "Q". Precautions have been taken so that entering "q" also quit Bamazon. 
 
-
+The inventory is shown in a table format, thanks to the "cli-table" node package. Some colors have also been added to the inventory table and messages displayed thanks to the "cli-color" node package.
 
 ---
 
@@ -22,7 +22,7 @@ Several node packages have to be installed for Bamazon to run properly. Follow t
 - `npm install cli-color`
 - `npm install cli-table`
 
-4. After installing the required packages, type `node bamazonCustomer.js` in your terminal to start using Bamazon!
+4. After installing the required packages, type `node bamazonCustomer.js` in your terminal to start using Bamazon as a customer!
 
 ---
 
@@ -36,13 +36,15 @@ To build this project, I used the following technologies:
 
 ---
 
-### GIF showing Bamazon in action
+### Screenshot of the mySQL database = Bamazon's inventory
 
-![GIF showing Bamazon in action]()
+![Screenshot of the mySQL database = Bamazon's inventory]()
 
 ---
 
+### GIF showing Bamazon - customer role - in action
 
+![GIF showing Bamazon - customer role - in action]()
 
 
 
