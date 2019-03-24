@@ -38,13 +38,13 @@ To build this project, I used the following technologies:
 
 ### Screenshot of the mySQL database = Bamazon's inventory
 
-![Screenshot of the mySQL database = Bamazon's inventory]()
+![Screenshot of the mySQL database = Bamazon's inventory](https://github.com/SophM/Bamazon/blob/master/assets/for_readme/screenshot_mySQL_database.png?raw=true)
 
 ---
 
 ### GIF showing Bamazon - customer role - in action
 
-![GIF showing Bamazon - customer role - in action]()
+![GIF showing Bamazon - customer role - in action](https://github.com/SophM/Bamazon/blob/master/assets/for_readme/GIF_showing_bamazonCustomer_in_action.gif?raw=true)
 
 
 
