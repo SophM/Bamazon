@@ -70,8 +70,8 @@ function showInventory(arr) {
 }
 
 // function to diplay the "products" table to the cutomer = our inventory
-// and ask if she/he wants to buy something
-function showInventoryAskCustomer() {
+// and ask the customer which item she/he wants to buy
+function showInventoryAskCustomerItem() {
     // connect to the database to do a request
     connection.query(
         // select the entire "products" table
@@ -82,14 +82,14 @@ function showInventoryAskCustomer() {
             if (err) throw err;
             // show the "products" table in a nice table
             showInventory(res);
-            // ask the customer if she/he wants to buy something
-            askCustomer();
+            // ask the customer which item she/he wants to buy
+            askCustomerItem();
         }
     )
 }
 
-// function to ask the customer if she/he wants to buy an item
-function askCustomer() {
+// function to ask the customer which item she/he wants to buy
+function askCustomerItem() {
     // ask the customer to enter the ID of the item she/he wants
     inquirer
         .prompt([
@@ -110,18 +110,18 @@ function askCustomer() {
                     if (err) throw err;
                     // store all the current ids in an array
                     var currentId = [];
-                    for (var i = 0; i < res.length; i ++) {
+                    for (var i = 0; i < res.length; i++) {
                         currentId.push(res[i].item_id);
                     }
                     // console.log(currentId);
-                    // if the number entered by the customer is not a valid ID or is a letter other than "q"
+                    // if the number entered by the customer is not a valid ID or is a letter other than "q" or "Q"
                     if (!currentId.includes(parseInt(item.customerChoice)) && item.customerChoice.toLowerCase() !== "q") {
                         // display message - not valid ID
                         console.log(warningMsg.bold("-----------------------------------"));
                         console.log(warningMsg.bold("This ID is not recognized. Please enter a valid ID!"));
                         console.log(warningMsg.bold("-----------------------------------"));
                         // ask the customer again if she/he wants to buy something
-                        askCustomer();
+                        askCustomerItem();
                     // if the customer entered "Q" or "q"
                     } else if (item.customerChoice.toLowerCase() === "q") {
                         // display a "goodbye" message
@@ -132,34 +132,48 @@ function askCustomer() {
                         connection.end();
                     // if the customer enter a valid ID
                     } else {
-                        // ask for how many she/he wants
-                        inquirer
-                            .prompt([
-                                {
-                                    type: "input",
-                                    message: "How many would you like to buy? [Quit with Q]",
-                                    name: "customerQuantity"
-                                }
-                            // then run the following
-                            ]).then(function (quantity) {
-                                // if the customer entered "Q" or "q"
-                                if (quantity.customerQuantity.toLowerCase() === "q") {
-                                    // display a "goodbye" message
-                                    console.log(goodbyeMsg.bold("-----------------------------------"));
-                                    console.log(goodbyeMsg.bold("Goodbye, see you next time!"));
-                                    console.log(goodbyeMsg.bold("-----------------------------------"));
-                                    // end the connection with bamazon_db
-                                    connection.end();
-                                // if the customer entered a quantity
-                                } else {
-                                    // run updateInventory() function
-                                    updateInventory(item.customerChoice, quantity.customerQuantity);
-                                }
-                            })
+                        // ask the customer how many items does she/he want
+                        askCustomerQuantity(item.customerChoice);
                     }
                 }
             )
 
+        })
+}
+
+// function to ask the customer how many items does she/he want
+function askCustomerQuantity(customerChoice) {
+    // ask for how many she/he wants
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "How many would you like to buy? [Quit with Q]",
+                name: "customerQuantity"
+            }
+        // then run the following
+        ]).then(function (quantity) {
+            // if the customer entered a quantity, so a number - need to use "==" because the user input is a sting by default
+            if (quantity.customerQuantity == parseInt(quantity.customerQuantity)) {
+                // run updateInventory() function
+                updateInventory(customerChoice, quantity.customerQuantity);
+            // if the customer entered "Q" or "q"
+            } else if (quantity.customerQuantity.toLowerCase() === "q") {
+                // display a "goodbye" message
+                console.log(goodbyeMsg.bold("-----------------------------------"));
+                console.log(goodbyeMsg.bold("Goodbye, see you next time!"));
+                console.log(goodbyeMsg.bold("-----------------------------------"));
+                // end the connection with bamazon_db
+                connection.end();
+            // if the customer entered a letter other than "q" or "Q"
+            } else {
+                // display a message - not a valid quantity
+                console.log(warningMsg.bold("-----------------------------------"));
+                console.log(warningMsg.bold("I don't know how many is that! Please enter a valid quantity."));
+                console.log(warningMsg.bold("-----------------------------------"));
+                // ask the customer again how many does she/he wants
+                askCustomerQuantity(customerChoice);
+            }
         })
 }
 
@@ -184,7 +198,7 @@ function updateInventory(item_wanted, quantity_wanted) {
                 console.log(warningMsg.bold("-----------------------------------"));
                 // show the inventory and ask the customer again if she/he wants to buy something
                 showInventoryAskCustomer();
-                // if the quantity in stock is enough
+            // if the quantity in stock is enough
             } else {
                 // display message  - successful transaction
                 console.log(sucessMsg.bold("-----------------------------------"));
@@ -208,8 +222,8 @@ function updateInventory(item_wanted, quantity_wanted) {
                         if (err) throw err;
                     }
                 )
-                // show the updated inventory and ask the customer again if she/he wants to buy something
-                showInventoryAskCustomer();
+                // show the updated inventory and ask the customer which item she/he wants to buy
+                showInventoryAskCustomerItem();
             }
         }
     )
@@ -232,5 +246,5 @@ connection.connect(function (err) {
     // verify that we are connected
     // console.log("connected as id " + connection.threadId);
     // run the showInventoryAskCustomer() funcion once the connection has been established
-    showInventoryAskCustomer();
+    showInventoryAskCustomerItem();
 });
