@@ -120,7 +120,7 @@ function askCustomerItem() {
                         console.log(warningMsg.bold("-----------------------------------"));
                         console.log(warningMsg.bold("This ID is not recognized. Please enter a valid ID!"));
                         console.log(warningMsg.bold("-----------------------------------"));
-                        // ask the customer again if she/he wants to buy something
+                        // ask the customer again which item she/he wants to buy
                         askCustomerItem();
                     // if the customer entered "Q" or "q"
                     } else if (item.customerChoice.toLowerCase() === "q") {
@@ -197,7 +197,7 @@ function updateInventory(item_wanted, quantity_wanted) {
                 console.log(warningMsg.bold("Sorry, we don't have that many in stock!"));
                 console.log(warningMsg.bold("-----------------------------------"));
                 // show the inventory and ask the customer again if she/he wants to buy something
-                showInventoryAskCustomer();
+                showInventoryAskCustomerItem();
             // if the quantity in stock is enough
             } else {
                 // display message  - successful transaction
@@ -245,6 +245,6 @@ connection.connect(function (err) {
     if (err) throw err;
     // verify that we are connected
     // console.log("connected as id " + connection.threadId);
-    // run the showInventoryAskCustomer() funcion once the connection has been established
+    // run the showInventoryAskCustomerItem() funcion once the connection has been established
     showInventoryAskCustomerItem();
 });
