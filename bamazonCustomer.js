@@ -24,13 +24,13 @@ var table = require("cli-table");
 var connection = mysql.createConnection({
     host: "localhost",
   
-    // Your port; if not 3306
+    // my port
     port: 3306,
   
-    // Your username
+    // my username
     user: "root",
   
-    // Your password
+    // my password
     password: "a9uLc2frfg7buEidFA",
     database: "bamazon_db"
 });
