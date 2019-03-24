@@ -19,6 +19,7 @@
   "homepage": "https://github.com/SophM/Bamazon#readme",
   "dependencies": {
     "cli-color": "^1.4.0",
+    "cli-table": "^0.3.1",
     "inquirer": "^6.2.2",
     "mysql": "^2.16.0"
   }
