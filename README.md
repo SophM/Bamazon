@@ -20,6 +20,7 @@ Several node packages have to be installed for Bamazon to run properly. Follow t
 - `npm install inquirer`
 - `npm install mysql`
 - `npm install cli-color`
+- `npm install cli-table`
 
 4. After installing the required packages, type `node bamazonCustomer.js` in your terminal to start using Bamazon!
 
