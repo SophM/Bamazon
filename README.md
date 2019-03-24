@@ -32,6 +32,7 @@ To build this project, I used the following technologies:
 
 - Node.js
 - JavaScript/jQuery
+- mySQL
 
 ---
 
