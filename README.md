@@ -48,7 +48,7 @@ To build this project, I used the following technologies:
 
 ### GIF showing Bamazon - customer role - in action with input validation
 
-![GIF showing Bamazon - customer role - in action]()
+![GIF showing Bamazon - customer role - in action](https://github.com/SophM/Bamazon/blob/master/assets/for_readme/GIF_showing_bamazonCustomer_in_action_with_validations.gif?raw=true)
 
 ---
 
