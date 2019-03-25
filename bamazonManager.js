@@ -41,15 +41,13 @@ var connection = mysql.createConnection({
 // ------------------------------------------------------------------
 
 // create variable to store the option for the "manager" menu
-var menu = ["View products for sale", "View low inventory", "Add to inventory", "Add new product"];
+var menu = ["View products for sale", "View low inventory", "Add to inventory", "Add new product", "Quit"];
 
 // create a color to display the "goodbye" message with cli-color
 var goodbyeMsg = clc.xterm(208);
 
-// create a color to display "warning" messages when too low quantity or not valid id
-// and "successful-transaction" message
+// create a color to display the "product added" messages
 var sucessMsg = clc.xterm(71);
-var warningMsg = clc.xterm(160);
 
 
 // ------------------------------------------------------------------
@@ -63,37 +61,42 @@ function managerOptions() {
         .prompt([
             {
                 type: "rawlist",
-                message: "What would you like to do? [Quit with Q]",
+                message: "What would you like to do?",
                 choices: menu,
                 name: "managerChoice"
             }
         // then run the following
         ]).then(function (answer) {
-            // if the customer entered "Q" or "q"
-            if (item.customerChoice.toLowerCase() === "q") {
-               // display a "goodbye" message
-               console.log(goodbyeMsg.bold("-----------------------------------"));
-               console.log(goodbyeMsg.bold("Goodbye, see you next time!"));
-               console.log(goodbyeMsg.bold("-----------------------------------"));
-               // end the connection with bamazon_db
-               connection.end();             
             // if the manager chose "View products on sale"
-            } else if (answer.managerChoice === menu[0]) {
-                // display message - not valid ID
-                console.log(clc.magenta.bold("-----------------------------------"));
-                console.log(clc.magenta.bold("Here is the inventory"));
-                console.log(clc.magenta.bold("-----------------------------------"));
+            if (answer.managerChoice === menu[0]) {
+                // display message - inventory
+                console.log(clc.blue.bold("-----------------------------------"));
+                console.log(clc.blue.bold("Here is the complete inventory"));
+                console.log(clc.blue.bold("-----------------------------------"));
                 // show the inventory and ask the manager again what she/he would like to do
                 showInventoryAskManager();
             // if the manager chose "View low inventory"
             } else if (answer.managerChoice === menu[1]) {
-
+                // display message - low inventory
+                console.log(clc.blue.bold("-----------------------------------"));
+                console.log(clc.blue.bold("Here is the inventory showing low-quantity products"));
+                console.log(clc.blue.bold("-----------------------------------"));
+                // show low inventory and ask the manager again what she/he would like to do
+                lowInventory();
             // if the manager chose "Add to inventory"    
             } else if (answer.managerChoice === menu[2]) {
 
             // if the manager chose "Add new product"      
             } else if (answer.managerChoice === menu[3]) {
                 
+            // if the customer chose "Quit"
+            } else {
+               // display a "goodbye" message
+               console.log(goodbyeMsg.bold("-----------------------------------"));
+               console.log(goodbyeMsg.bold("Goodbye, see you next time!"));
+               console.log(goodbyeMsg.bold("-----------------------------------"));
+               // end the connection with bamazon_db
+               connection.end();             
             }       
         })
 }
@@ -132,12 +135,26 @@ function showInventoryAskManager() {
     )
 }
 
-// function to show low inventory
+// function to display the products with low quantity in stock
 function lowInventory() {
+    // connect to the database to do a request
+    connection.query(
+        // select the entire "products" table where stock_quantity is below 5
+        "SELECT * FROM products WHERE stock_quantity < 5",
+        // then run the following
+        function (err, res) {
+            // if error(s), display it(them)
+            if (err) throw err;
+            // show the "products" table in a nice table
+            showInventory(res);
+            // ask the manager what she/he would like to do
+            managerOptions();
+        }
+    )
 
 }
 
-// function to update the "products" table within bamazon_db
+// function to add more item for one of the product
 function updateInventory(item_wanted, quantity_wanted) {
     // connect to the database to do a request
     connection.query(
