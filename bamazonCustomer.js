@@ -53,41 +53,6 @@ var warningMsg = clc.xterm(160);
 // Functions
 // ------------------------------------------------------------------
 
-// function to format nicely the "products" table and add some colors
-function showInventory(arr) {
-    // instantiate the table
-    var productsTable = new table();
-    // add the first row = headers - with some styling thanks to cli-color
-    productsTable.push([clc.cyan.bold("item_id"), clc.cyan.bold("product_name"), clc.cyan.bold("department_name"), clc.cyan.bold("price"), clc.cyan.bold("stock_quantity")]);
-    // add every item to the table
-    for (var i = 0; i < arr.length; i++) {
-        productsTable.push(
-            [arr[i].item_id, arr[i].product_name, arr[i].department_name, arr[i].price, arr[i].stock_quantity],
-        )
-    }
-    // display the table
-    console.log(productsTable.toString());
-}
-
-// function to diplay the "products" table to the cutomer = our inventory
-// and ask the customer which item she/he wants to buy
-function showInventoryAskCustomerItem() {
-    // connect to the database to do a request
-    connection.query(
-        // select the entire "products" table
-        "SELECT * FROM products",
-        // then run the following
-        function (err, res) {
-            // if error(s), display it(them)
-            if (err) throw err;
-            // show the "products" table in a nice table
-            showInventory(res);
-            // ask the customer which item she/he wants to buy
-            askCustomerItem();
-        }
-    )
-}
-
 // function to ask the customer which item she/he wants to buy
 function askCustomerItem() {
     // ask the customer to enter the ID of the item she/he wants
@@ -225,6 +190,41 @@ function updateInventory(item_wanted, quantity_wanted) {
                 // show the updated inventory and ask the customer which item she/he wants to buy
                 showInventoryAskCustomerItem();
             }
+        }
+    )
+}
+
+// function to format nicely the "products" table and add some colors
+function showInventory(arr) {
+    // instantiate the table
+    var productsTable = new table();
+    // add the first row = headers - with some styling thanks to cli-color
+    productsTable.push([clc.cyan.bold("item_id"), clc.cyan.bold("product_name"), clc.cyan.bold("department_name"), clc.cyan.bold("price"), clc.cyan.bold("stock_quantity")]);
+    // add every item to the table
+    for (var i = 0; i < arr.length; i++) {
+        productsTable.push(
+            [arr[i].item_id, arr[i].product_name, arr[i].department_name, arr[i].price, arr[i].stock_quantity],
+        )
+    }
+    // display the table
+    console.log(productsTable.toString());
+}
+
+// function to diplay the "products" table to the cutomer = our inventory
+// and ask the customer which item she/he wants to buy
+function showInventoryAskCustomerItem() {
+    // connect to the database to do a request
+    connection.query(
+        // select the entire "products" table
+        "SELECT * FROM products",
+        // then run the following
+        function (err, res) {
+            // if error(s), display it(them)
+            if (err) throw err;
+            // show the "products" table in a nice table
+            showInventory(res);
+            // ask the customer which item she/he wants to buy
+            askCustomerItem();
         }
     )
 }
