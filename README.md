@@ -4,8 +4,8 @@ In this project, I built an e-commerce storefront, called Bamazon. Bamazon is a 
 The inventory is shown in a table format, thanks to the "cli-table" node package. Some colors have also been added to the inventory table and messages displayed thanks to the "cli-color" node package.
 
 Bamazon offers two sides:
-- customer's side, by running `bamazonCustomer.js` 
-- manager's side, by running `bamazonManager.js`
+- customer's side, by running `node bamazonCustomer.js` 
+- manager's side, by running `node bamazonManager.js`
 
 **Customer's side**
 The app shows the store's inventory and takes orders from customers. The customer is asked to enter the ID of the item she/he wants to buy (first question), and then the quantity she/he wants (second question). If the quantity wanted by the customer is lower than the stock, the customer will "buy" the item(s) wanted and an updated store's inventory will be displayed. If the customer wants more items than available in stock, a "stock-too-low" message will be displayed along with the store's inventory. At anytime, the customer can quit the app by entering "Q". Some precautions have been taken so that entering "q" also quits Bamazon.
