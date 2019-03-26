@@ -28,7 +28,7 @@ The app shows a main menu (list of options) the manager can choose from. Five op
 
 Several node packages have to be installed for Bamazon to run properly. Follow the steps below to get set up:
 
-1. Using your terminal, navigate to the folder containing bamazonCustomer.js.
+1. Using your terminal, navigate to the folder containing bamazonCustomer.js and bamazonManager.js.
 
 2. If you DON'T have a file called "package.json" in your folder, run: `npm init -y` to create this file. If you do have this file, skip this step.
 
