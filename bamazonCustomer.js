@@ -60,7 +60,7 @@ function askCustomerItem() {
         .prompt([
             {
                 type: "input",
-                message: "Which item would you like to purchase ? Enter its ID [Quit with Q]",
+                message: "Which product would you like to purchase ? Enter its ID [Quit with Q]",
                 name: "customerChoice"
             }
         // then run the following
@@ -106,7 +106,7 @@ function askCustomerItem() {
         })
 }
 
-// function to ask the customer how many items does she/he want
+// function to ask the customer how many items does she/he wants
 function askCustomerQuantity(customerChoice) {
     // ask for how many she/he wants
     inquirer
