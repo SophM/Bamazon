@@ -46,8 +46,8 @@ var menu = ["View products for sale", "View low inventory", "Add to inventory", 
 // create a color to display the "goodbye" message with cli-color
 var goodbyeMsg = clc.xterm(208);
 
-// create a color to display "warning" messages when too low quantity or not valid id
-// and "successful-transaction" message
+// create a color to display "warning" messages for input validation
+// and "successful-action" message
 var sucessMsg = clc.xterm(71);
 var warningMsg = clc.xterm(160);
 
@@ -56,9 +56,9 @@ var warningMsg = clc.xterm(160);
 // Functions
 // ------------------------------------------------------------------
 
-// function to present the option to the manager 
+// function to present the options to the manager 
 function managerOptions() {
-    // ask the customer to enter the ID of the item she/he wants
+    // ask the manager to choose an option
     inquirer
         .prompt([
             {
@@ -71,7 +71,7 @@ function managerOptions() {
         ]).then(function (answer) {
             // if the manager chose "View products on sale"
             if (answer.managerChoice === menu[0]) {
-                // display message - inventory
+                // display message - complete inventory
                 console.log(clc.blue.bold("-----------------------------------"));
                 console.log(clc.blue.bold("Here is the complete inventory"));
                 console.log(clc.blue.bold("-----------------------------------"));
@@ -158,17 +158,17 @@ function showLowInventoryAskManager() {
 
 }
 
-// function to add more items for one of the product and display the main menu again
+// function to add more items for one of the products and display the main menu again
 function askManagerItemToAddMore() {
     // connect to the database to do a request
     connection.query(
-        // select the entire "products" table where stock_quantity is below 5
+        // select the entire "products" table
         "SELECT * FROM products",
         // then run the following
         function (err, res) {
             // if error(s), display it(them)
             if (err) throw err;
-            // display message - inventory
+            // display message - complete inventory
             console.log(clc.blue.bold("-----------------------------------"));
             console.log(clc.blue.bold("Here is the complete inventory"));
             console.log(clc.blue.bold("-----------------------------------"));
@@ -214,7 +214,7 @@ function askManagerItemToAddMore() {
                                 console.log(clc.blue.bold("-----------------------------------"));
                                 // go back to the main menu - list of options
                                 managerOptions();
-                            // update the table with the id of the products and the quantity
+                            // otherwise...
                             } else {
                                 // ask the manager how many she/he wants to add
                                 askManagerQuantity(answer.id);
@@ -316,8 +316,13 @@ function addNewItem() {
             },
             {
                 type: "input",
-                message: "Which department is it?",
+                message: "Which department does it belong to?",
                 name: "department"
+            },
+            {
+                type: "input",
+                message: "What is the price of this new product?",
+                name: "price"
             },
             {
                 type: "input",
@@ -326,10 +331,26 @@ function addNewItem() {
             },
         // then run the following
         ]).then(function (answer) {
-            // if error(s), display it(them)
-            if (err) throw err;
-
-
+            // connect to the database to add the new product
+            connection.query(
+                "INSERT INTO products SET ?",
+                {
+                    product_name: answer.product,
+                    department_name: answer.department,
+                    price: answer.price,
+                    stock_quantity: answer.quantity
+                },
+                function(err, res) {
+                    // if error(s), display it(them)
+                    if (err) throw err;
+                    // display message - product added
+                    console.log(sucessMsg.bold("-----------------------------------"));
+                    console.log(sucessMsg.bold("You've successfully added " + answer.product + " to the inventory!"));
+                    console.log(sucessMsg.bold("-----------------------------------"));
+                    // ask the manager again what she/he wants to do
+                    managerOptions(); 
+                }
+            )    
         })
 }
 
