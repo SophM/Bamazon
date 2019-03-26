@@ -1,14 +1,26 @@
 # Bamazon
 
-In this project, I built an e-commerce storefront, called Bamazon. Bamazon is a CLI. It runs in the terminal, using Node.js. Node.js is an open-source JavaScript runtime environment, that allows to execute JavaScript code outside of a browser. Bamazon's inventory corresponds to a database stored using mySQL. The app connects to the mySQL database, which allows to display and update the store's inventory. 
+In this project, I built an e-commerce storefront, called Bamazon. Bamazon is a CLI. It runs in the terminal, using Node.js. Node.js is an open-source JavaScript runtime environment, that allows to execute JavaScript code outside of a browser. Bamazon's inventory corresponds to a database stored using mySQL. The app connects to the mySQL database, which allows to display and update the store's inventory.
+The inventory is shown in a table format, thanks to the "cli-table" node package. Some colors have also been added to the inventory table and messages displayed thanks to the "cli-color" node package.
 
-The app shows the store's inventory and takes orders from customers. The customer is asked to enter the ID of the item she/he wants to buy (first question), and then the quantity she/he wants (second question). If the quantity wanted by the customer is lower than the stock, the customer will "buy" the item(s) wanted and an updated store's inventory will be displayed. If the customer wants more items than available in stock, a "stock-too-low" message will be displayed along with the store's inventory. At anytime, the customer can quit the app by entering "Q". Some precautions have been taken so that entering "q" also quits Bamazon. 
+Bamazon offers two sides:
+- customer's side, by running `bamazonCustomer.js` 
+- manager's side, by running `bamazonManager.js`
 
-Input validations have been defined so that:
+**Customer's side**
+The app shows the store's inventory and takes orders from customers. The customer is asked to enter the ID of the item she/he wants to buy (first question), and then the quantity she/he wants (second question). If the quantity wanted by the customer is lower than the stock, the customer will "buy" the item(s) wanted and an updated store's inventory will be displayed. If the customer wants more items than available in stock, a "stock-too-low" message will be displayed along with the store's inventory. At anytime, the customer can quit the app by entering "Q". Some precautions have been taken so that entering "q" also quits Bamazon.
+
+**Manager's side**
+The app shows a main menu (list of options) the manager can choose from. Five options are offered:
+- "View products for sale", to display the complete store's inventory;
+- "View low inventory", to display the products whose quantity is below 5;
+- "Add to inventory", which asks the manager which product currently in the store does she/he want to add more for and how many more.
+- "Add new product", which asks the manager the info (name, department, price, quantity) about the product she/he wants to add to the store
+- "Quit", to quit Bamazon.
+
+**For both sides, some input validations have been defined** so that if the customer's or manager's answer is not valid a message will be displayed and the question will be asked again. For example, on the customer's side:
 - for the first question (which item?), if the customer enters a letter other than "Q"/"q" or a number that is not a current valid ID, a "not-a-valid-id" message will be displayed and the first question will be asked again - see code snippet below for details.
 - for the second question (how many?), if the customer enters a letter other than "Q"/"q", a "not-a-valid-quantity" message will be displayed and the second question is asked again.
-
-The inventory is shown in a table format, thanks to the "cli-table" node package. Some colors have also been added to the inventory table and messages displayed thanks to the "cli-color" node package.
 
 ---
 
@@ -26,7 +38,7 @@ Several node packages have to be installed for Bamazon to run properly. Follow t
 - `npm install cli-color`
 - `npm install cli-table`
 
-4. After installing the required packages, type `node bamazonCustomer.js` in your terminal to start using Bamazon as a customer!
+4. After installing the required packages, type `node bamazonCustomer.js` or `node bamazonManager.js` in your terminal to start using Bamazon as a customer or a manager, respectively!
 
 ---
 
@@ -40,7 +52,7 @@ To build this project, I used the following technologies:
 
 ---
 
-### Code snippet showing the input validation for the first question (which item?)
+### Code snippet showing the input validation for the first "customer" question (which item?) - as an example
 
 ![Code snippet showing the input validation for the first question (which item?)](https://github.com/SophM/Bamazon/blob/master/assets/for_readme/screenshot_showing_validation_first_question.png?raw=true)
 
@@ -58,7 +70,15 @@ To build this project, I used the following technologies:
 
 ---
 
+### GIF showing Bamazon - manager role - in action with input validation
 
+![GIF showing Bamazon - manager role - in action]()
+
+---
+
+### Contribution
+
+- Sophie Mallez
 
 
 
