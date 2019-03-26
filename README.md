@@ -72,7 +72,7 @@ To build this project, I used the following technologies:
 
 ### GIF showing Bamazon - manager role - in action with input validation
 
-![GIF showing Bamazon - manager role - in action]()
+![GIF showing Bamazon - manager role - in action](https://github.com/SophM/Bamazon/blob/master/assets/for_readme/GIF_showing_bamazonManager_in_action_with_validation.gif?raw=true)
 
 ---
 
