@@ -7,10 +7,10 @@ Bamazon offers two sides:
 - customer's side, by running `node bamazonCustomer.js` 
 - manager's side, by running `node bamazonManager.js`
 
-**Customer's side**
+<br>**Customer's side**<br>
 The app shows the store's inventory and takes orders from customers. The customer is asked to enter the ID of the item she/he wants to buy (first question), and then the quantity she/he wants (second question). If the quantity wanted by the customer is lower than the stock, the customer will "buy" the item(s) wanted and an updated store's inventory will be displayed. If the customer wants more items than available in stock, a "stock-too-low" message will be displayed along with the store's inventory. At anytime, the customer can quit the app by entering "Q". Some precautions have been taken so that entering "q" also quits Bamazon.
 
-**Manager's side**
+<br>**Manager's side**<br>
 The app shows a main menu (list of options) the manager can choose from. Five options are offered:
 - "View products for sale", to display the complete store's inventory;
 - "View low inventory", to display the products whose quantity is below 5;
@@ -18,7 +18,7 @@ The app shows a main menu (list of options) the manager can choose from. Five op
 - "Add new product", which asks the manager the info (name, department, price, quantity) about the product she/he wants to add to the store
 - "Quit", to quit Bamazon.
 
-**For both sides, some input validations have been defined** so that if the customer's or manager's answer is not valid a message will be displayed and the question will be asked again. For example, on the customer's side:
+<br>**For both sides, some input validations have been defined** so that if the customer's or manager's answer is not valid a message will be displayed and the question will be asked again. For example, on the customer's side:
 - for the first question (which item?), if the customer enters a letter other than "Q"/"q" or a number that is not a current valid ID, a "not-a-valid-id" message will be displayed and the first question will be asked again - see code snippet below for details.
 - for the second question (how many?), if the customer enters a letter other than "Q"/"q", a "not-a-valid-quantity" message will be displayed and the second question is asked again.
 
