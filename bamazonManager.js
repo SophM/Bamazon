@@ -198,7 +198,7 @@ function askManagerItemToAddMore() {
                                 currentId.push(res[i].item_id);
                             }
                             // console.log(currentId);
-                            // if the number entered by the manager is not a valid ID or is a letter other than "m" or "M"
+                            // if the manager entered a number that is not a valid ID, a letter other than "m" or "M" or left this field empty
                             if (!currentId.includes(parseInt(answer.id)) && answer.id.toLowerCase() !== "m") {
                                 // display message - not valid ID
                                 console.log(warningMsg.bold("-----------------------------------"));
@@ -206,7 +206,7 @@ function askManagerItemToAddMore() {
                                 console.log(warningMsg.bold("-----------------------------------"));
                                 // ask the manager again for which product she/he wants to add items
                                 askManagerItemToAddMore();
-                            // if the manager entered "m" or "M"
+                            // if the manager entered "m" or "M" 
                             } else if (answer.id.toLowerCase() === "m") {
                                 // display message - main menu
                                 console.log(clc.blue.bold("-----------------------------------"));
@@ -214,7 +214,7 @@ function askManagerItemToAddMore() {
                                 console.log(clc.blue.bold("-----------------------------------"));
                                 // go back to the main menu - list of options
                                 managerOptions();
-                            // otherwise...
+                            // if the customer enter a valid ID
                             } else {
                                 // ask the manager how many she/he wants to add
                                 askManagerQuantity(answer.id);
@@ -250,7 +250,7 @@ function askManagerQuantity(managerChoice) {
                 console.log(clc.blue.bold("-----------------------------------"));
                 // go back to the main menu - list of options
                 managerOptions();
-            // if the manager entered a letter other than "M" or "m"
+            // if the manager entered a letter other than "M" or "m" or left the field empty
             } else {
                 // display a message - not a valid quantity
                 console.log(warningMsg.bold("-----------------------------------"));

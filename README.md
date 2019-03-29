@@ -18,9 +18,10 @@ The app shows a main menu (list of options) the manager can choose from. Five op
 - "Add new product", which asks the manager the info (name, department, price, quantity) about the product she/he wants to add to the store
 - "Quit", to quit Bamazon.
 
-<br>**For both sides, some input validations have been defined** so that if the customer's or manager's answer is not valid a message will be displayed and the question will be asked again. For example, on the customer's side:
-- for the first question (which item?), if the customer enters a letter other than "Q"/"q" or a number that is not a current valid ID, a "not-a-valid-id" message will be displayed and the first question will be asked again - see code snippet below for details.
-- for the second question (how many?), if the customer enters a letter other than "Q"/"q", a "not-a-valid-quantity" message will be displayed and the second question is asked again.
+<br>**For both sides, some input validations have been defined** so that if the customer's or manager's answer is not valid, a message will be displayed and the question will be asked again.
+For example, on the customer's side:
+- for the first question (which item?), if the customer enters a letter other than "Q"/"q", a number that is not a current valid ID or doesn't answer anything, a "not-a-valid-id" message will be displayed and the first question will be asked again - see code snippet below for details.
+- for the second question (how many?), if the customer enters a letter other than "Q"/"q" or doesn't answer anything, a "not-a-valid-quantity" message will be displayed and the second question is asked again.
 
 ---
 

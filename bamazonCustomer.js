@@ -60,7 +60,7 @@ function askCustomerItem() {
         .prompt([
             {
                 type: "input",
-                message: "Which product would you like to purchase ? Enter its ID [Quit with Q]",
+                message: "Which product would you like to purchase? Enter its ID [Quit with Q]",
                 name: "customerChoice"
             }
         // then run the following
@@ -79,7 +79,7 @@ function askCustomerItem() {
                         currentId.push(res[i].item_id);
                     }
                     // console.log(currentId);
-                    // if the number entered by the customer is not a valid ID or is a letter other than "q" or "Q"
+                    // if the customer entered a number that is not a valid ID, a letter other than "m" or "M" or left this field empty
                     if (!currentId.includes(parseInt(item.customerChoice)) && item.customerChoice.toLowerCase() !== "q") {
                         // display message - not valid ID
                         console.log(warningMsg.bold("-----------------------------------"));
@@ -130,7 +130,7 @@ function askCustomerQuantity(customerChoice) {
                 console.log(goodbyeMsg.bold("-----------------------------------"));
                 // end the connection with bamazon_db
                 connection.end();
-            // if the customer entered a letter other than "q" or "Q"
+            // if the customer entered a letter other than "q" or "Q" or left the field empty
             } else {
                 // display a message - not a valid quantity
                 console.log(warningMsg.bold("-----------------------------------"));
